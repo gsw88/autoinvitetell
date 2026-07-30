@@ -32,6 +32,32 @@ function isPlayerInParty(name)
 
     return false
 end
+
+local function get_addon_directory()
+    local source = debug.getinfo(1, "S").source
+
+    -- Remove the leading '@'
+    if source:sub(1,1) == '@' then
+        source = source:sub(2)
+    end
+
+    -- Strip the filename
+    return source:match("^(.*)[/\\]")
+end
+
+local function update_addon()
+    local dir = get_addon_directory()
+
+    local cmd = string.format(
+        'cmd /C "cd /d "%s" && git fetch && git pull"',
+        dir
+    )
+
+    print("Updating addon...")
+    os.execute(cmd)
+    print("Update complete.")
+end
+
 -- Event triggered on incoming chat messages
 windower.register_event('chat message', function(message, sender, mode, is_gm)
     -- Mode 3 corresponds to incoming Tells
@@ -50,6 +76,20 @@ windower.register_event('chat message', function(message, sender, mode, is_gm)
         
         -- Optional log message to your console
         print('AutoInviteTell: Sent party leader to ' .. player_name)
+				
+				elseif contains(whitelist, player_name)
+					and message:contains('join') then
+					
+					
+					windower.send_command('join')
+					print('AutoInviteTell: Joining pt')
+					
+				elseif contains(whitelist, player_name)
+					and message:contains('update') then
+
+					update_addon()
+					windower.send_command('lua r ait')
+					print('AutoInviteTell: Updating from github')
 				end
     end
 end)
