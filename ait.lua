@@ -1,6 +1,6 @@
 _addon.name = 'AutoInviteTell'
 _addon.author = 'AI'
-_addon.version = '1.0'
+_addon.version = '1.1'
 _addon.commands = {'ait'}
 config = require ('config')
 strings = require('strings')
