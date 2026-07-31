@@ -1,6 +1,6 @@
 _addon.name = 'AutoInviteTell'
 _addon.author = 'AI'
-_addon.version = '1.1'
+_addon.version = '1.2'
 _addon.commands = {'ait'}
 config = require ('config')
 strings = require('strings')
@@ -66,13 +66,13 @@ windower.register_event('chat message', function(message, sender, mode, is_gm)
         local player_name = string.gsub(sender, "[^a-zA-Z0-9]", ""):lower()
         if (contains(whitelist,player_name) and message:contains('invite')) then
         -- Send the party invite command via windower console
-        windower.send_command('pcmd add ' .. player_name)
+        windower.send_command('input /pcmd add ' .. player_name)
         
         -- Optional log message to your console
         print('AutoInviteTell: Sent party invite to ' .. player_name)
 				
 				elseif contains(whitelist,player_name) and isPlayerInParty(player_name) and message:contains('leader') then
-					windower.send_command('pcmd leader ' .. player_name)
+					windower.send_command('input /pcmd leader ' .. player_name)
         
         -- Optional log message to your console
         print('AutoInviteTell: Sent party leader to ' .. player_name)
@@ -81,7 +81,7 @@ windower.register_event('chat message', function(message, sender, mode, is_gm)
 					and message:contains('join') then
 					
 					
-					windower.send_command('join')
+					windower.send_command('input /join')
 					print('AutoInviteTell: Joining pt')
 					
 				elseif contains(whitelist, player_name)
